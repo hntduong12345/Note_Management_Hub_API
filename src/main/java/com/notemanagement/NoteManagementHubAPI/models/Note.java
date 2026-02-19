@@ -55,8 +55,6 @@ public class Note extends BaseEntity{
 
     private boolean isArchived = false;
 
-    private LocalDateTime lastSyncedAt;
-
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

@@ -4,7 +4,6 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.notemanagement.NoteManagementHubAPI.dtos.attachmentdtos.AttachmentResponse;
 import com.notemanagement.NoteManagementHubAPI.dtos.attachmentdtos.AttachmentUploadRequest;
-import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.BadRequestException;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.InternalException;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.NotFoundException;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.UnauthorizedException;
@@ -17,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -26,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AttachmentService implements com.notemanagement.NoteManagementHubAPI.services.interfaces.AttachmentService {
+public class AttachmentServiceImpl implements com.notemanagement.NoteManagementHubAPI.services.interfaces.AttachmentService {
     private final AttachmentRepository attachmentRepository;
     private final NoteRepository noteRepository;
     private final Cloudinary cloudinary;
