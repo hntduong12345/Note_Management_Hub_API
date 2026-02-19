@@ -15,6 +15,8 @@ public class Attachment extends BaseEntity{
     @JoinColumn(name = "note_id", nullable = false)
     private Note note;
 
+    private String externalId;
+
     @Column(nullable = false, length = 512)
     private String fileUrl;
 
