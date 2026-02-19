@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/note_management_hub_db
+    username: postgres
+    password: pg12345
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true        # prints SQL in console
+    database: postgresql
+    properties:
+      hibernate:
+        format_sql: true  # pretty-print SQL
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    jackson:
+      serialization:
+        indent_output: true
+
+  # JWT custom config
+  jwt:
+    secret: "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo3ODkwMTIzNDU2"
+    expiration: 3600000
+
+  # Swagger / Springdoc configs
+  springdoc:
+    api-docs:
+      path: /api-docs
+    swagger-ui:
+      path: /swagger-ui
+      persist-authorization: true
