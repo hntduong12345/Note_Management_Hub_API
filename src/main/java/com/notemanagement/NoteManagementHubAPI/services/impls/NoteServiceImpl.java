@@ -20,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +42,8 @@ public class NoteServiceImpl implements NoteService {
     private final EntityManager entityManager;
 
     @Override
+    @Async("taskExecutor")
+    @Transactional(readOnly = true)
     public CompletableFuture<NoteResponse> getNoteDetail(UUID id) {
         Note note = noteRepository.findById(id)
                 .filter(n -> !n.isArchived())
@@ -49,6 +53,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Async("taskExecutor")
+    @Transactional(readOnly = true)
     public CompletableFuture<Page<NoteResponse>> searchNotes(String searchTerm, UUID userId, Pageable pageable) {
         return  CompletableFuture.supplyAsync(() -> {
             return noteRepository.searchNotes(userId, searchTerm, pageable)
@@ -57,6 +63,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Async("taskExecutor")
+    @Transactional
     public CompletableFuture<NoteResponse> createNote(NoteRequest request, UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User is not found"));
@@ -90,6 +98,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Async("taskExecutor")
+    @Transactional
     public CompletableFuture<NoteResponse> updateNote(UUID id, NoteRequest request, UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User is not found"));
@@ -128,6 +138,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Async("taskExecutor")
+    @Transactional
     public CompletableFuture<Void> softDeleteNote(UUID id) {
         Note note = noteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Note is not found"));
