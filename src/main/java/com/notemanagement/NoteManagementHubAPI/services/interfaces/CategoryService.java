@@ -1,9 +1,15 @@
 package com.notemanagement.NoteManagementHubAPI.services.interfaces;
 
+import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryRequest;
+import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryResponse;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
 public interface CategoryService {
-    /*
-    public CompleteFuture<List<CategoryDTO>> getCategoryTree(User user);
-    public CompleteFuture<CategoryDTO> createCategory(CategoryDTO category, User user);
-    public CompleteFuture<CategoryDTO> moveCategory(UUID cateId, UUID newParentId); //Updates the parent_id (Postgres handles the tree shift).
-     */
+    CompletableFuture<List<CategoryResponse>> getAllCategories(UUID userId);
+    CompletableFuture<CategoryResponse> createCategory(CategoryRequest request, UUID userId);
+    CompletableFuture<CategoryResponse> updateCategory(UUID id, CategoryRequest request, UUID userId);
+    CompletableFuture<Void> deleteCategory(UUID id, UUID userId);
 }

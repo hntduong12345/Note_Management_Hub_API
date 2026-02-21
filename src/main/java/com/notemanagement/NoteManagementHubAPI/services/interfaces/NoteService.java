@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface NoteService {
     public CompletableFuture<NoteResponse> getNoteDetail(UUID id);
+//    public CompletableFuture<Page<NoteResponse>> getNotesByCategory(UUID categoryId);
     public CompletableFuture<Page<NoteResponse>> searchNotes(String searchTerm, UUID userId, Pageable pageable);
     public CompletableFuture<NoteResponse> createNote(NoteRequest request, UUID userId);
     public CompletableFuture<NoteResponse> updateNote (UUID id, NoteRequest request, UUID userId);
