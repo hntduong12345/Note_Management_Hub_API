@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface NoteRepository extends JpaRepository<Note, UUID> {
@@ -36,4 +36,6 @@ public interface NoteRepository extends JpaRepository<Note, UUID> {
             @Param("newCategoryId") UUID newCategoryId,
             @Param("userId") UUID userId
     );
+
+    Optional<Note> findByIdAndUserId(UUID id, UUID userId);
 }

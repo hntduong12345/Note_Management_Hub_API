@@ -1,17 +1,16 @@
 package com.notemanagement.NoteManagementHubAPI.services.interfaces;
 
+import com.notemanagement.NoteManagementHubAPI.dtos.notedtos.NoteResponse;
+import com.notemanagement.NoteManagementHubAPI.dtos.notelinkdtos.NoteLinkRequest;
+import com.notemanagement.NoteManagementHubAPI.dtos.notelinkdtos.NoteLinkResponse;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
 public interface NoteLinkService {
-    /*
-    // Links two notes together
-    CompletableFuture<Void> createLink(UUID sourceNoteId, UUID targetNoteId, UUID userId);
-
-    // Removes the connection
-    CompletableFuture<Void> removeLink(UUID sourceNoteId, UUID targetNoteId, UUID userId);
-
-    // Gets all notes that the current note points to
-    CompletableFuture<List<NoteResponseDTO>> getOutgoingLinks(UUID noteId, UUID userId);
-
-    // Gets all notes that point TO the current note (Backlinks)
-    CompletableFuture<List<NoteResponseDTO>> getBacklinks(UUID noteId, UUID userId);
-     */
+    CompletableFuture<NoteLinkResponse> createLink(NoteLinkRequest request);
+    CompletableFuture<Void> removeLink(UUID linkId, UUID userId);
+    CompletableFuture<List<NoteLinkResponse>> getTargetLinks(UUID noteId, UUID userId);
+    CompletableFuture<List<NoteLinkResponse>> getSourceLinks(UUID noteId, UUID userId);
 }
