@@ -17,7 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/notes")
+@RequestMapping("/categories")
 @RequiredArgsConstructor
 public class CategoryController extends BaseController{
     private final CategoryService categoryService;
