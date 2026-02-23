@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("note-revisions")
 @RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
 public class NoteRevisionController extends BaseController{
     private final NoteRevisionService noteRevisionService;
 

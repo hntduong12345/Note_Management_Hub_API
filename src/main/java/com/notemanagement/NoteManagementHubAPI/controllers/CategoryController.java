@@ -2,14 +2,13 @@ package com.notemanagement.NoteManagementHubAPI.controllers;
 
 import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryRequest;
 import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryResponse;
-import com.notemanagement.NoteManagementHubAPI.dtos.notedtos.NoteResponse;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.InternalException;
-import com.notemanagement.NoteManagementHubAPI.repositories.CategoryRepository;
 import com.notemanagement.NoteManagementHubAPI.services.interfaces.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("/categories")
 @RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
 public class CategoryController extends BaseController{
     private final CategoryService categoryService;
 
