@@ -1,6 +1,5 @@
 package com.notemanagement.NoteManagementHubAPI.controllers;
 
-import com.notemanagement.NoteManagementHubAPI.dtos.notedtos.NoteResponse;
 import com.notemanagement.NoteManagementHubAPI.dtos.notelinkdtos.NoteLinkRequest;
 import com.notemanagement.NoteManagementHubAPI.dtos.notelinkdtos.NoteLinkResponse;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.InternalException;
@@ -9,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("/note-links")
 @RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
 public class NoteLinkController extends BaseController{
     private final NoteLinkService noteLinkService;
 

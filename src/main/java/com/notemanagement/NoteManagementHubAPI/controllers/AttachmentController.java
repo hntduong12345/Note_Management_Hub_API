@@ -2,22 +2,21 @@ package com.notemanagement.NoteManagementHubAPI.controllers;
 
 import com.notemanagement.NoteManagementHubAPI.dtos.attachmentdtos.AttachmentResponse;
 import com.notemanagement.NoteManagementHubAPI.dtos.attachmentdtos.AttachmentUploadRequest;
-import com.notemanagement.NoteManagementHubAPI.dtos.userdtos.UserResponse;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.InternalException;
 import com.notemanagement.NoteManagementHubAPI.services.interfaces.AttachmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @RestController
 @RequestMapping("/attachments")
 @RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
 public class AttachmentController extends BaseController{
     private final AttachmentService attachmentService;
 
