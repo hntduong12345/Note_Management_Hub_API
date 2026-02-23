@@ -8,12 +8,14 @@ import com.notemanagement.NoteManagementHubAPI.services.interfaces.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@PreAuthorize("permitAll()")
 public class AuthenticationController extends BaseController{
     private final UserService userService;
 

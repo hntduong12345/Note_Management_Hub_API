@@ -57,10 +57,10 @@ public class NoteServiceImpl implements NoteService {
     @Async("taskExecutor")
     @Transactional(readOnly = true)
     public CompletableFuture<Page<NoteResponse>> searchNotes(String searchTerm, UUID userId, Pageable pageable) {
-        return  CompletableFuture.supplyAsync(() -> {
-            return noteRepository.searchNotes(userId, searchTerm, pageable)
-                    .map(this::mapToResponse);
-        });
+        return  CompletableFuture.completedFuture(
+            noteRepository.searchNotes(userId, searchTerm, pageable)
+                    .map(this::mapToResponse)
+        );
     }
 
     @Override

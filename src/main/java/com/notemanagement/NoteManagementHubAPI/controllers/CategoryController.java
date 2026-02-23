@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,6 +65,11 @@ public class CategoryController extends BaseController{
             @ParameterObject UUID userId,
             @RequestBody CategoryRequest request){
         logger.info("Controller: Create category");
+        System.out.println("Test Test");
+        System.out.println(
+                SecurityContextHolder.getContext().getAuthentication()
+        );
+
         return categoryService.createCategory(request, userId)
                 .exceptionally(ex ->
                 {
@@ -85,7 +91,7 @@ public class CategoryController extends BaseController{
             responseCode = "401",
             description = "Login is required."
     )
-    @PostMapping("{id}")
+    @PutMapping("{id}")
     public CompletableFuture<CategoryResponse> updateCategory(
             @PathVariable UUID id,
             @ParameterObject UUID userId,

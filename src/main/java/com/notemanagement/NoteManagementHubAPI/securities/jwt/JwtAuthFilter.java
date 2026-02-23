@@ -32,6 +32,8 @@ public class JwtAuthFilter extends OncePerRequestFilter{
             throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
 
+//        System.out.println("JWT FILTER RUNNING: " + request.getHeader("Authorization"));
+
         // Swagger and non-secured endpoints enter here safely
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -65,5 +67,10 @@ public class JwtAuthFilter extends OncePerRequestFilter{
 
         // Explicitly skip filtering for documentation generation paths
         return path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui");
+    }
+
+    @Override
+    protected boolean shouldNotFilterAsyncDispatch() {
+        return false;
     }
 }

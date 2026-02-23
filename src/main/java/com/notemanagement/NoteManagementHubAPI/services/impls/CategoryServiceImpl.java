@@ -56,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category newCate = new Category();
         newCate.setName(request.getName());
         newCate.setIconIdentifier(request.getIconIdentifier());
+        newCate.setUser(user);
 
         Category savedCate = categoryRepository.save(newCate);
 
@@ -92,32 +93,31 @@ public class CategoryServiceImpl implements CategoryService {
     @Async("taskExecutor")
     @Transactional
     public CompletableFuture<Void> deleteCategory(UUID id, UUID userId) {
-        return CompletableFuture.runAsync(() -> {
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new NotFoundException("User is not existing!"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User is not existing!"));
 
-            Category category = categoryRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("Category is not found"));
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Category is not found"));
 
-            if(category.getName().equalsIgnoreCase(DEFAULT_CATEGORY_NAME)){
-                throw new ConflictException("Cannot delete the default category of the system!");
-            }
+        if(category.getName().equalsIgnoreCase(DEFAULT_CATEGORY_NAME)){
+            throw new ConflictException("Cannot delete the default category of the system!");
+        }
 
-            //Check user has already had a default category
-            Category defaultCategory = categoryRepository.findByNameAndUserId(DEFAULT_CATEGORY_NAME, userId)
-                    .orElseGet(() -> {
-                        Category newDefault = new Category();
-                        newDefault.setName(DEFAULT_CATEGORY_NAME);
-                        newDefault.setIconIdentifier("");
-                        newDefault.setUser(user);
-                        return categoryRepository.save(newDefault);
-                    });
+        //Check user has already had a default category
+        Category defaultCategory = categoryRepository.findByNameAndUserId(DEFAULT_CATEGORY_NAME, userId)
+                .orElseGet(() -> {
+                    Category newDefault = new Category();
+                    newDefault.setName(DEFAULT_CATEGORY_NAME);
+                    newDefault.setIconIdentifier("");
+                    newDefault.setUser(user);
+                    return categoryRepository.save(newDefault);
+                });
 
-            //Change all the notes of deleted category to the default category
-            noteRepository.moveNotesToNewCategory(category.getId(), defaultCategory.getId(), userId);
+        //Change all the notes of deleted category to the default category
+        noteRepository.moveNotesToNewCategory(category.getId(), defaultCategory.getId(), userId);
 
-            categoryRepository.delete(category);
-        });
+        categoryRepository.delete(category);
+        return CompletableFuture.completedFuture(null);
     }
 
     private CategoryResponse mapToResponse(Category category){

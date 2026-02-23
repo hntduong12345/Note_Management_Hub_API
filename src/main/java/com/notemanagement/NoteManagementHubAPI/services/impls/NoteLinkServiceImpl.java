@@ -11,6 +11,7 @@ import com.notemanagement.NoteManagementHubAPI.repositories.NoteLinkRepository;
 import com.notemanagement.NoteManagementHubAPI.repositories.NoteRepository;
 import com.notemanagement.NoteManagementHubAPI.repositories.UserRepository;
 import com.notemanagement.NoteManagementHubAPI.services.interfaces.NoteLinkService;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -30,6 +31,8 @@ public class NoteLinkServiceImpl implements NoteLinkService {
     private final NoteRepository noteRepository;
     private final UserRepository userRepository;
 
+    private final EntityManager entityManager;
+
     @Override
     @Async("taskExecutor")
     @Transactional
@@ -47,6 +50,9 @@ public class NoteLinkServiceImpl implements NoteLinkService {
         noteLink.setTargetNote(targetNote);
         noteLink.setLinkContext(request.getLinkContext());
         NoteLink savedLink = noteLinkRepository.save(noteLink);
+
+        entityManager.flush();
+        entityManager.refresh(savedLink);
 
         return CompletableFuture.completedFuture(mapToResponse(savedLink, true));
     }
@@ -73,7 +79,7 @@ public class NoteLinkServiceImpl implements NoteLinkService {
     public CompletableFuture<List<NoteLinkResponse>> getTargetLinks(UUID noteId, UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User is not existing!"));
-        NoteLink link = noteLinkRepository.findById(noteId)
+        NoteLink link = noteLinkRepository.findBySourceNoteId(noteId)
                 .orElseThrow(() -> new NotFoundException("Note link is not found"));
 
         return CompletableFuture.completedFuture(
@@ -89,7 +95,7 @@ public class NoteLinkServiceImpl implements NoteLinkService {
     public CompletableFuture<List<NoteLinkResponse>> getSourceLinks(UUID noteId, UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User is not existing!"));
-        NoteLink link = noteLinkRepository.findById(noteId)
+        NoteLink link = noteLinkRepository.findByTargetNoteId(noteId)
                 .orElseThrow(() -> new NotFoundException("Note link is not found"));
 
         return CompletableFuture.completedFuture(

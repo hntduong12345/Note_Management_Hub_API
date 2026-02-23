@@ -112,7 +112,7 @@ public class NoteLinkController extends BaseController{
             description = "Login is required."
     )
     @DeleteMapping("{id}")
-    public CompletableFuture<Void> removeNoteLink(@PathVariable("{id}") UUID id, @ParameterObject UUID userId){
+    public CompletableFuture<Void> removeNoteLink(@PathVariable("id") UUID id, @ParameterObject UUID userId){
         logger.info("Controller: Remove note link");
         return noteLinkService.removeLink(id, userId)
                 .exceptionally(ex ->

@@ -38,7 +38,8 @@ public class AttachmentServiceImpl implements com.notemanagement.NoteManagementH
                 .orElseThrow(() -> new NotFoundException("Note is not found"));
 
         //Extract id from cloudinary
-        String publicId = extractPublicId(request.getFileUrl());
+//        String publicId = extractPublicId(request.getFileUrl());
+        String publicId = "test";
 
         Attachment newAttachment = new Attachment();
         newAttachment.setNote(note);
@@ -69,15 +70,18 @@ public class AttachmentServiceImpl implements com.notemanagement.NoteManagementH
             throw new UnauthorizedException("Unauthorized user");
         }
 
-        try {
-            //Delete from Cloudinary using the External ID
-            cloudinary.uploader().destroy(attachment.getExternalId(), ObjectUtils.emptyMap());
-            //Delete from Postgres
-            attachmentRepository.delete(attachment);
-        } catch (IOException e) {
-            log.error("Failed to delete from Cloudinary: {}", attachment.getExternalId(), e);
-            throw new InternalException("Cloudinary deletion failed", e.getCause());
-        }
+        attachmentRepository.delete(attachment);
+
+//        Temporary disable for only BE testing
+//        try {
+//            //Delete from Cloudinary using the External ID
+//            cloudinary.uploader().destroy(attachment.getExternalId(), ObjectUtils.emptyMap());
+//            //Delete from Postgres
+//            attachmentRepository.delete(attachment);
+//        } catch (IOException e) {
+//            log.error("Failed to delete from Cloudinary: {}", attachment.getExternalId(), e);
+//            throw new InternalException("Cloudinary deletion failed", e.getCause());
+//        }
 
         return CompletableFuture.completedFuture(null);
     }
