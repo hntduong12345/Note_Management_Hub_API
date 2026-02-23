@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface NoteLinkRepository extends JpaRepository<NoteLink, UUID> {
@@ -25,4 +26,7 @@ public interface NoteLinkRepository extends JpaRepository<NoteLink, UUID> {
         WHERE nl.targetNote.id = :noteId
     """)
     List<NoteLink> findAllByTargetNoteId(UUID noteId);
+
+    Optional<NoteLink> findBySourceNoteId(UUID sourceNoteId);
+    Optional<NoteLink> findByTargetNoteId(UUID targetNoteId);
 }

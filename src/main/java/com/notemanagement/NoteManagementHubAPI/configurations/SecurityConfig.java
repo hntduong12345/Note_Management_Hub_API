@@ -62,6 +62,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
 
+                        .requestMatchers("/error").permitAll()
+
                         // everything else secured
                         .anyRequest().authenticated()
                 )
