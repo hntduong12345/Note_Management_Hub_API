@@ -1,5 +1,6 @@
 package com.notemanagement.NoteManagementHubAPI.controllers;
 
+import com.notemanagement.NoteManagementHubAPI.constants.ApiPath;
 import com.notemanagement.NoteManagementHubAPI.dtos.authdtos.AuthResponse;
 import com.notemanagement.NoteManagementHubAPI.dtos.authdtos.LoginRequest;
 import com.notemanagement.NoteManagementHubAPI.dtos.authdtos.RegisterRequest;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(ApiPath.BASEURL + "/auth")
 @RequiredArgsConstructor
 @PreAuthorize("permitAll()")
 public class AuthenticationController extends BaseController{

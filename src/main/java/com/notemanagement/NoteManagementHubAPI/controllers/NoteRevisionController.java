@@ -1,5 +1,6 @@
 package com.notemanagement.NoteManagementHubAPI.controllers;
 
+import com.notemanagement.NoteManagementHubAPI.constants.ApiPath;
 import com.notemanagement.NoteManagementHubAPI.dtos.notedtos.NoteResponse;
 import com.notemanagement.NoteManagementHubAPI.dtos.noterevisiondtos.NoteRevisionDetailResponse;
 import com.notemanagement.NoteManagementHubAPI.dtos.noterevisiondtos.NoteRevisionRequest;
@@ -18,7 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("note-revisions")
+@RequestMapping(ApiPath.BASEURL + "note-revisions")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class NoteRevisionController extends BaseController{

@@ -97,4 +97,19 @@ public class UserServiceImpl implements UserService {
 
         return CompletableFuture.completedFuture(response);
     }
+
+    @Override
+    @Async("taskExecutor")
+    @Transactional(readOnly = true)
+    public CompletableFuture<UserResponse> getProfileByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(String.format("User with email %s is not found", email)));
+
+        UserResponse response = new UserResponse(
+                user.getId(),
+                user.getEmail()
+        );
+
+        return CompletableFuture.completedFuture(response);
+    }
 }
