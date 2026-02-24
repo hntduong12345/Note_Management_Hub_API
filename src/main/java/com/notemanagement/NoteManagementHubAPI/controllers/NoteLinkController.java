@@ -1,5 +1,6 @@
 package com.notemanagement.NoteManagementHubAPI.controllers;
 
+import com.notemanagement.NoteManagementHubAPI.constants.ApiPath;
 import com.notemanagement.NoteManagementHubAPI.dtos.notelinkdtos.NoteLinkRequest;
 import com.notemanagement.NoteManagementHubAPI.dtos.notelinkdtos.NoteLinkResponse;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.InternalException;
@@ -16,7 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/note-links")
+@RequestMapping(ApiPath.BASEURL + "/note-links")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class NoteLinkController extends BaseController{

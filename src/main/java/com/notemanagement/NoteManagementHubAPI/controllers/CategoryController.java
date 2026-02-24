@@ -1,5 +1,6 @@
 package com.notemanagement.NoteManagementHubAPI.controllers;
 
+import com.notemanagement.NoteManagementHubAPI.constants.ApiPath;
 import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryRequest;
 import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryResponse;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.InternalException;
@@ -17,7 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping(ApiPath.BASEURL + "/categories")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class CategoryController extends BaseController{

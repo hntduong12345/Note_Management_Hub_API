@@ -1,5 +1,6 @@
 package com.notemanagement.NoteManagementHubAPI.controllers;
 
+import com.notemanagement.NoteManagementHubAPI.constants.ApiPath;
 import com.notemanagement.NoteManagementHubAPI.dtos.attachmentdtos.AttachmentResponse;
 import com.notemanagement.NoteManagementHubAPI.dtos.attachmentdtos.AttachmentUploadRequest;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.InternalException;
@@ -14,7 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/attachments")
+@RequestMapping(ApiPath.BASEURL + "/attachments")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class AttachmentController extends BaseController{

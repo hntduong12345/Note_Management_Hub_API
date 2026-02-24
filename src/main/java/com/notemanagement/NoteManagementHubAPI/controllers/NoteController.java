@@ -1,5 +1,6 @@
 package com.notemanagement.NoteManagementHubAPI.controllers;
 
+import com.notemanagement.NoteManagementHubAPI.constants.ApiPath;
 import com.notemanagement.NoteManagementHubAPI.dtos.commons.PageResponse;
 import com.notemanagement.NoteManagementHubAPI.dtos.notedtos.NoteRequest;
 import com.notemanagement.NoteManagementHubAPI.dtos.notedtos.NoteResponse;
@@ -17,7 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/notes")
+@RequestMapping(ApiPath.BASEURL + "/notes")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class NoteController extends BaseController{
