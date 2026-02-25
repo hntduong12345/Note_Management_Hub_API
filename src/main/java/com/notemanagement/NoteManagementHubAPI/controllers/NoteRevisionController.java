@@ -114,7 +114,7 @@ public class NoteRevisionController extends BaseController{
             description = "Login is required."
     )
     @PutMapping("{id}")
-    public CompletableFuture<NoteResponse> createRevision(@PathVariable("id") UUID id, @ParameterObject UUID userId){
+    public CompletableFuture<NoteResponse> restoreRevision(@PathVariable("id") UUID id, @ParameterObject UUID userId){
         logger.info("Controller: Restore a history version of note");
         return noteRevisionService.restoreRevision(id, userId)
                 .exceptionally(ex ->
