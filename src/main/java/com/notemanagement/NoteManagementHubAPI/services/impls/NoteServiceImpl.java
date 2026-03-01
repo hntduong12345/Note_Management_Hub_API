@@ -42,6 +42,8 @@ public class NoteServiceImpl implements NoteService {
     private final UserRepository userRepository;
     private final EntityManager entityManager;
 
+    private static final String DEFAULT_CATEGORY_NAME = "Uncategorized";
+
     @Override
     @Async("taskExecutor")
     @Transactional(readOnly = true)
@@ -177,7 +179,7 @@ public class NoteServiceImpl implements NoteService {
             note.getId(),
             note.getTitle(),
             note.getContentBody(),
-            note.getCategory() != null ? note.getCategory().getId() : null,
+            note.getCategory() != null ? note.getCategory().getName() : DEFAULT_CATEGORY_NAME,
             note.getTags().stream().map(t -> new TagDTO(t.getId(), t.getName(), t.getColorCode())).toList(),
             note.getUpdatedAt()
         );

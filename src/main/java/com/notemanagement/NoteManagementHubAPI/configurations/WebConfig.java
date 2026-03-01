@@ -11,10 +11,10 @@ public class WebConfig implements WebMvcConfigurer{
     @Override
     public void addCorsMappings(CorsRegistry registry){
         registry.addMapping("/api/**") // Apply to all API endpoints starting with /api/
-                .allowedOrigins("http://localhost:3000") // Specify allowed domains
+                .allowedOrigins("*") // Specify allowed domains
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH") // Allow common HTTP methods
                 .allowedHeaders("*") // Allow all headers (including Authorization for JWT)
-                .allowCredentials(true) // Allow cookies or authentication headers (like JWT)
+                //.allowCredentials(true) // Allow cookies or authentication headers (like JWT)
                 .maxAge(3600); // How long to cache the CORS preflight response
     }
 }

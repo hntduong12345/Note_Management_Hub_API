@@ -15,7 +15,7 @@ public class NoteResponse {
     private UUID id;
     private String title;
     private Map<String, Object> contentBody;
-    private UUID categoryId;
+    private String category;
     private List<TagDTO> tags; // Detailed tag info
     private LocalDateTime updatedAt;
 }
