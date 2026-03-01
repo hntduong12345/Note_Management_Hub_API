@@ -179,7 +179,8 @@ public class NoteServiceImpl implements NoteService {
             note.getId(),
             note.getTitle(),
             note.getContentBody(),
-            note.getCategory() != null ? note.getCategory().getName() : DEFAULT_CATEGORY_NAME,
+            note.getCategory() != null ? note.getCategory().getName() : "",
+            note.getCategory() != null ? note.getCategory().getId() : null,
             note.getTags().stream().map(t -> new TagDTO(t.getId(), t.getName(), t.getColorCode())).toList(),
             note.getUpdatedAt()
         );
