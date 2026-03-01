@@ -1,8 +1,11 @@
 package com.notemanagement.NoteManagementHubAPI.services.impls;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryRequest;
 import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryResponse;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.ConflictException;
+import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.InternalException;
 import com.notemanagement.NoteManagementHubAPI.exceptions.exceptionCases.NotFoundException;
 import com.notemanagement.NoteManagementHubAPI.models.Category;
 import com.notemanagement.NoteManagementHubAPI.models.User;
@@ -15,8 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -27,6 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final NoteRepository noteRepository;
+    private final Cloudinary cloudinary;
 
     private final EntityManager entityManager;
 
@@ -49,13 +56,35 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Async("taskExecutor")
     @Transactional
-    public CompletableFuture<CategoryResponse> createCategory(CategoryRequest request, UUID userId) {
+    public CompletableFuture<CategoryResponse> createCategory(String name, MultipartFile file, UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User is not existing!"));
 
+        //Handle upload icon image
+        String iconUrl = "";
+//        if (file != null && !file.isEmpty()) {
+//            try {
+//                // Options map: specify folder name in Cloudinary
+//                Map uploadOptions = ObjectUtils.asMap(
+//                        "folder", "note_app/categories",
+//                        "resource_type", "auto"
+//                );
+//
+//                // Perform the upload
+//                Map uploadResult = cloudinary.uploader().upload(file.getBytes(), uploadOptions);
+//
+//                // Extract the secure URL (https)
+//                iconUrl = uploadResult.get("secure_url").toString();
+//
+//            } catch (IOException e) {
+//                throw new InternalException("Failed to process image for upload", e);
+//            }
+//        }
+
+
         Category newCate = new Category();
-        newCate.setName(request.getName());
-        newCate.setIconIdentifier(request.getIconIdentifier());
+        newCate.setName(name);
+        newCate.setIconIdentifier(iconUrl);
         newCate.setUser(user);
 
         Category savedCate = categoryRepository.save(newCate);

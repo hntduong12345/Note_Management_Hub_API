@@ -1,5 +1,6 @@
 package com.notemanagement.NoteManagementHubAPI.controllers;
 
+import com.cloudinary.Cloudinary;
 import com.notemanagement.NoteManagementHubAPI.constants.ApiPath;
 import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryRequest;
 import com.notemanagement.NoteManagementHubAPI.dtos.categorydtos.CategoryResponse;
@@ -9,9 +10,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +26,7 @@ import java.util.concurrent.CompletableFuture;
 @PreAuthorize("isAuthenticated()")
 public class CategoryController extends BaseController{
     private final CategoryService categoryService;
+    private final Cloudinary cloudinary;
 
     @Operation(summary = "Get user's all categories")
     @ApiResponse(
@@ -61,17 +65,18 @@ public class CategoryController extends BaseController{
             responseCode = "401",
             description = "Login is required."
     )
-    @PostMapping()
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CompletableFuture<CategoryResponse> createCategory(
             @ParameterObject UUID userId,
-            @RequestBody CategoryRequest request){
+            @RequestParam("name") String name,
+            @RequestParam("file") MultipartFile file){
         logger.info("Controller: Create category");
         System.out.println("Test Test");
         System.out.println(
                 SecurityContextHolder.getContext().getAuthentication()
         );
 
-        return categoryService.createCategory(request, userId)
+        return categoryService.createCategory(name, file, userId)
                 .exceptionally(ex ->
                 {
                     logger.error("Error occurs when create category");
